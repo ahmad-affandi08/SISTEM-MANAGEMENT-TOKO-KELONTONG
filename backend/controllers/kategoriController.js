@@ -44,10 +44,6 @@ exports.getAllKategori = async (req, res) => {
   try {
     const kategori = await Kategori.find();
 
-    if (!kategori.length) {
-      return res.status(404).json({ message: "Tidak ada kategori ditemukan" });
-    }
-
     res.status(200).json(kategori);
   } catch (error) {
     console.error("Error: ", error);

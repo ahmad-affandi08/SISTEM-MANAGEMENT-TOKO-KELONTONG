@@ -29,7 +29,6 @@ const KategoriList = () => {
         setLoading(false);
       } catch (err) {
         setError(err.message || "Terjadi kesalahan saat memuat data.");
-        setLoading(false);
       }
     };
 
