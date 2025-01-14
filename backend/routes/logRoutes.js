@@ -6,13 +6,14 @@ const {
   deleteAllLogs,
 } = require("../controllers/logActivityController");
 const authenticate = require("../middleware/authenticate");
+const authorize = require("../middleware/authorize");
 const router = express.Router();
 
 // Route untuk mengambil log aktivitas
-router.get("/", async (req, res) => {
+router.get("/", authenticate, authorize(["admin"]), async (req, res) => {
   try {
     const logs = await LogActivity.find()
-      .populate("userId", "username") // Pastikan ini untuk mengambil username dari userId
+      .populate("userId", "username")
       .sort({ createdAt: -1 });
 
     // Menambahkan informasi username ke dalam log
@@ -25,12 +26,12 @@ router.get("/", async (req, res) => {
 });
 
 // Endpoint untuk mengambil semua log aktivitas
-router.get("/", authenticate, getAllLogs);
+router.get("/", authenticate, authorize(["admin"]), getAllLogs);
 
 // Endpoint untuk menghapus log aktivitas berdasarkan ID
-router.delete("/:id", authenticate, deleteLogById);
+router.delete("/:id", authenticate, authorize(["admin"]), deleteLogById);
 
 // Endpoint untuk menghapus semua log aktivitas
-router.delete("/", authenticate, deleteAllLogs);
+router.delete("/", authenticate, authorize(["admin"]), deleteAllLogs);
 
 module.exports = router;

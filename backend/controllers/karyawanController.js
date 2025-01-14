@@ -1,4 +1,3 @@
-// controllers/karyawanController.js
 const Karyawan = require("../models/Karyawan");
 const User = require("../models/User");
 

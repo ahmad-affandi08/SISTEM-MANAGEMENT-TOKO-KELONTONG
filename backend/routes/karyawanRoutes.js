@@ -8,22 +8,28 @@ const {
   getKaryawanByUserLogin,
 } = require("../controllers/karyawanController");
 const authenticate = require("../middleware/authenticate");
+const authorize = require("../middleware/authorize");
 
 const router = express.Router();
 
 // Tambah karyawan baru (hanya admin yang bisa menambah)
-router.post("/", authenticate, tambahKaryawan);
+router.post("/", authenticate, authorize(["admin"]), tambahKaryawan);
 
 // Ambil semua data karyawan
-router.get("/", authenticate, getKaryawan);
+router.get("/", authenticate, authorize(["admin"]), getKaryawan);
 
 // Ambil detail karyawan berdasarkan ID
-router.get("/me", authenticate, getKaryawanByUserLogin);
+router.get(
+  "/me",
+  authenticate,
+  authorize(["admin", "kasir"]),
+  getKaryawanByUserLogin
+);
 
 // Update data karyawan
-router.put("/:id", authenticate, updateKaryawan);
+router.put("/:id", authenticate, authorize(["admin", "kasir"]), updateKaryawan);
 
 // Hapus data karyawan
-router.delete("/:id", authenticate, hapusKaryawan);
+router.delete("/:id", authenticate, authorize(["admin"]), hapusKaryawan);
 
 module.exports = router;

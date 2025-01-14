@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-
-// Import User model
 const User = require("./User");
 
 const LogActivitySchema = new mongoose.Schema({

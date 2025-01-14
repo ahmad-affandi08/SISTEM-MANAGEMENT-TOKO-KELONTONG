@@ -7,11 +7,12 @@ const {
   deleteUser,
 } = require("../controllers/userController");
 const authenticae = require("../middleware/authenticate");
+const authorize = require("../middleware/authorize");
 
 // Routes for admin to manage users
-router.get("/", authenticae, getAllUsers);
-router.post("/", authenticae, createUser);
-router.put("/:id", authenticae, updateUser);
-router.delete("/:id", authenticae, deleteUser);
+router.get("/", authenticae, authorize(["admin"]), getAllUsers);
+router.post("/", authenticae, authorize(["admin"]), createUser);
+router.put("/:id", authenticae, authorize(["admin"]), updateUser);
+router.delete("/:id", authenticae, authorize(["admin"]), deleteUser);
 
 module.exports = router;
