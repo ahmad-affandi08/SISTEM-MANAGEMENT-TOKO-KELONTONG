@@ -8,9 +8,11 @@ import {
   AiOutlineHome,
   AiOutlineUp,
   AiOutlineDown,
+  AiOutlineKey,
 } from "react-icons/ai";
 import Swal from "sweetalert2";
 import DefaultView from "../components/Kasir/DefaultView";
+import ChangePassword from "../components/Kasir/ChangePassword";
 import { getKaryawanByUserLogin } from "../api/karyawanApi";
 
 const KasirPage = () => {
@@ -18,7 +20,7 @@ const KasirPage = () => {
   const [nama, setNama] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const [showDefaultContent, setShowDefaultContent] = useState(true);
+  const [activeComponent, setActiveComponent] = useState("DefaultView");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,7 +63,12 @@ const KasirPage = () => {
 
   const handleGoToHomePage = () => {
     // Tampilkan konten utama di halaman yang sama
-    setShowDefaultContent(true);
+    setActiveComponent("DefaultView");
+  };
+
+  const handleChangePassword = () => {
+    // Tampilkan komponen Ganti Password
+    setActiveComponent("ChangePassword");
   };
 
   // Handle toggling the dropdown when the profile is clicked
@@ -84,6 +91,17 @@ const KasirPage = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const renderActiveComponent = () => {
+    switch (activeComponent) {
+      case "DefaultView":
+        return <DefaultView />;
+      case "ChangePassword":
+        return <ChangePassword />;
+      default:
+        return <DefaultView />;
+    }
+  };
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -125,6 +143,15 @@ const KasirPage = () => {
               >
                 <AiOutlineShoppingCart size={20} />
                 <span>SISTEM KASIR</span>
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={handleChangePassword}
+                className="flex items-center space-x-3 w-full text-left py-2 px-4 rounded-lg transition-all hover:bg-aksen hover:text-background"
+              >
+                <AiOutlineKey size={20} />
+                <span>GANTI PASSWORD</span>
               </button>
             </li>
           </ul>
@@ -195,8 +222,8 @@ const KasirPage = () => {
           </div>
         </div>
 
-        {/* Render Default Content */}
-        {showDefaultContent && <DefaultView />}
+        {/* Render Active Component */}
+        {renderActiveComponent()}
       </div>
     </div>
   );

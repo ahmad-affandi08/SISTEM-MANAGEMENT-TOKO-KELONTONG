@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const bcrypt = require("bcryptjs");
 
 // Get all users
 const getAllUsers = async (req, res) => {
@@ -71,9 +72,38 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const updatePassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  const userId = req.params.id;
+
+  try {
+    // Cari user berdasarkan ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User tidak ditemukan." });
+    }
+
+    // Verifikasi password lama dengan bcrypt
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Password lama tidak sesuai." });
+    }
+
+    // Update password (tanpa hash jika sudah terenkripsi atau langsung plaintext)
+    user.password = newPassword; // Langsung simpan tanpa hash
+    await user.save();
+
+    res.status(200).json({ message: "Password berhasil diperbarui." });
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ message: "Terjadi kesalahan pada server." });
+  }
+};
+
 module.exports = {
   getAllUsers,
   createUser,
   updateUser,
   deleteUser,
+  updatePassword,
 };

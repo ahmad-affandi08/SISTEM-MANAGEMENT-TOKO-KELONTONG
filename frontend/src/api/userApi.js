@@ -88,6 +88,23 @@ export const updateUser = async (id, updatedData) => {
   }
 };
 
+export const updatePassword = async (id, currentPassword, newPassword) => {
+  try {
+    const response = await axiosInstanceUsers.put(
+      `/update-password/${id}`,
+      { currentPassword, newPassword },
+      {
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.message || "Terjadi kesalahan pada server.";
+  }
+};
+
 // DELETE: Hapus user berdasarkan ID
 export const deleteUser = async (id) => {
   try {

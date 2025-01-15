@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const Karyawan = require("../models/Karyawan");
+const bcrypt = require("bcryptjs");
 
 // Fungsi untuk register pengguna
 const registerUser = async (req, res) => {
@@ -55,7 +55,7 @@ const loginUser = async (req, res) => {
     }
 
     // Memeriksa apakah password cocok
-    const isMatch = await user.matchPassword(password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }

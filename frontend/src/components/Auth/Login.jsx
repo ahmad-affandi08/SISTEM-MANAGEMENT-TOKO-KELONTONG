@@ -42,7 +42,7 @@ const Login = () => {
             "Login gagal. Periksa kembali username dan password."
         );
       } else {
-        setError("Terjadi kesalahan jaringan. Silakan coba lagi.");
+        setError("Username atau Password Salah");
       }
     } finally {
       setLoading(false);
