@@ -12,6 +12,7 @@ import {
   AiOutlineUser,
   AiOutlineUp,
   AiOutlineDown,
+  AiOutlineMessage,
 } from "react-icons/ai";
 import BarangList from "../components/Admin/BarangList";
 import KategoriList from "../components/Admin/KategoriList";
@@ -20,6 +21,7 @@ import DefaultView from "../components/Admin/DefaultView";
 import LogAktivitas from "../components/Admin/LogActivity";
 import KelolaPengguna from "../components/Admin/UserManagement";
 import KaryawanList from "../components/Admin/KaryawanList";
+import FeedbackList from "../components/Admin/FeedbackList";
 import Swal from "sweetalert2";
 
 const AdminPage = () => {
@@ -237,6 +239,23 @@ const AdminPage = () => {
                 </span>
               </button>
             </li>
+            <li>
+              <button
+                onClick={() => handleSetActiveComponent("FeedbackList")}
+                className={`relative flex items-center w-full text-left py-2 px-3 rounded-lg transition-all ${
+                  activeComponent === "FeedbackList" ? "bg-aksen text-teks" : ""
+                } hover:bg-border hover:text-teks`}
+              >
+                <AiOutlineMessage size={24} />
+                <span
+                  className={`absolute left-14 text-sm font-medium transition-opacity whitespace-nowrap duration-300 ${
+                    sidebarOpen ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  KRITIK & SARAN
+                </span>
+              </button>
+            </li>
           </ul>
         </div>
       </div>
@@ -316,6 +335,7 @@ const AdminPage = () => {
           {activeComponent === "laporanList" && <LaporanList />}
           {activeComponent === "KelolaPengguna" && <KelolaPengguna />}
           {activeComponent === "LogAktivitas" && <LogAktivitas />}
+          {activeComponent === "FeedbackList" && <FeedbackList />}
         </div>
       </div>
     </div>

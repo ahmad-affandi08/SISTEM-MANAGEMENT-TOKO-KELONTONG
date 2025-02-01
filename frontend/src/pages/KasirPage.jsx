@@ -9,11 +9,13 @@ import {
   AiOutlineUp,
   AiOutlineDown,
   AiOutlineKey,
+  AiOutlineMessage,
 } from "react-icons/ai";
 import Swal from "sweetalert2";
 import DefaultView from "../components/Kasir/DefaultView";
 import ChangePassword from "../components/Kasir/ChangePassword";
 import { getKaryawanByUserLogin } from "../api/karyawanApi";
+import FeedbackForm from "../components/Kasir/FeedBack";
 
 const KasirPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -70,6 +72,10 @@ const KasirPage = () => {
     // Tampilkan komponen Ganti Password
     setActiveComponent("ChangePassword");
   };
+  const handleFeedback = () => {
+    // Tampilkan komponen Ganti Password
+    setActiveComponent("FeedbackForm");
+  };
 
   // Handle toggling the dropdown when the profile is clicked
   const handleProfileClick = () => {
@@ -98,6 +104,9 @@ const KasirPage = () => {
         return <DefaultView />;
       case "ChangePassword":
         return <ChangePassword />;
+      case "FeedbackForm":
+        return <FeedbackForm />;
+
       default:
         return <DefaultView />;
     }
@@ -154,6 +163,16 @@ const KasirPage = () => {
                 <span>GANTI PASSWORD</span>
               </button>
             </li>
+            <li>
+  <button
+    onClick={() => handleFeedback("FeedbackForm")}
+    className="flex items-center space-x-3 w-full text-left py-2 px-4 rounded-lg transition-all hover:bg-aksen hover:text-background"
+  >
+    <AiOutlineMessage size={20} />
+    <span>KRITIK & SARAN</span>
+  </button>
+</li>
+
           </ul>
         </div>
       </div>
