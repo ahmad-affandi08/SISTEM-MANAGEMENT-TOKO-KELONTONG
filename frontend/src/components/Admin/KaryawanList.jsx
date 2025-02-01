@@ -208,14 +208,24 @@ const KaryawanCrud = () => {
                 { name: "alamat", label: "Alamat", type: "text" },
                 { name: "telepon", label: "Telepon", type: "tel" },
                 { name: "tanggalLahir", label: "Tanggal Lahir", type: "date" },
-                { name: "jenisKelamin", label: "Jenis Kelamin", type: "text" },
+                {
+                  name: "jenisKelamin",
+                  label: "Jenis Kelamin",
+                  type: "select",
+                  options: ["Laki-laki", "Perempuan"],
+                },
                 {
                   name: "tanggalMulaiKerja",
                   label: "Tanggal Masuk Kerja",
                   type: "date",
                 },
                 { name: "gaji", label: "Gaji", type: "number" },
-                { name: "shift", label: "Shift", type: "text" },
+                {
+                  name: "shift",
+                  label: "Shift",
+                  type: "select",
+                  options: ["Pagi", "Siang", "Malam"],
+                },
                 { name: "username", label: "Username", type: "text" },
                 { name: "password", label: "Password", type: "password" },
                 { name: "catatan", label: "Catatan", type: "text" },
@@ -227,17 +237,35 @@ const KaryawanCrud = () => {
                   >
                     {field.label}
                   </label>
-                  <input
-                    type={field.type}
-                    id={field.name}
-                    name={field.name}
-                    value={formData[field.name]}
-                    onChange={handleInputChange}
-                    className="shadow-lg appearance-none border border-gray-300 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-utama focus:ring-2 focus:ring-aksen"
-                    required
-                  />
+                  {field.type === "select" ? (
+                    <select
+                      id={field.name}
+                      name={field.name}
+                      value={formData[field.name]}
+                      onChange={handleInputChange}
+                      className="shadow-lg border border-gray-300 rounded w-full py-2 px-4"
+                    >
+                      <option value="">Pilih {field.label}</option>
+                      {field.options.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type={field.type}
+                      id={field.name}
+                      name={field.name}
+                      value={formData[field.name]}
+                      onChange={handleInputChange}
+                      className="shadow-lg appearance-none border border-gray-300 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-utama focus:ring-2 focus:ring-aksen"
+                      required
+                    />
+                  )}
                 </div>
               ))}
+
               <div className="flex justify-between gap-4 mt-4 col-span-2">
                 <button
                   type="button"
